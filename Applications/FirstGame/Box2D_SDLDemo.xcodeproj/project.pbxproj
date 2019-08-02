@@ -10,7 +10,6 @@
 		F415663E22E193040025EF76 /* SDL2_ttf.framework in Copy Build Frameworks */ = {isa = PBXBuildFile; fileRef = F415663D22E193040025EF76 /* SDL2_ttf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F415664022E193180025EF76 /* SDL2_mixer.framework in Copy Build Frameworks */ = {isa = PBXBuildFile; fileRef = F415663F22E193180025EF76 /* SDL2_mixer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F447F22322EB272400DD5E21 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F447F22222EB272400DD5E21 /* libBox2D.a */; };
-		F4B9338622E600730007F1E3 /* RETURN.txt in Resources */ = {isa = PBXBuildFile; fileRef = F4B9338522E600730007F1E3 /* RETURN.txt */; };
 		F4B9338E22E6179D0007F1E3 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = F4B9338D22E6179D0007F1E3 /* assets */; };
 		F4B9339022E647B00007F1E3 /* source in Resources */ = {isa = PBXBuildFile; fileRef = F4B9338F22E647B00007F1E3 /* source */; };
 		F4DBE6C9226FA4B1004DC9F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4DBE6C8226FA4B1004DC9F2 /* Assets.xcassets */; };
@@ -40,7 +39,6 @@
 		F415663D22E193040025EF76 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = "../../ThirdParty/SDL2_ttf-2.0.15/SDL2_ttf.framework"; sourceTree = "<group>"; };
 		F415663F22E193180025EF76 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = "../../ThirdParty/SDL2_mixer-2.0.4/SDL2_mixer.framework"; sourceTree = "<group>"; };
 		F447F22222EB272400DD5E21 /* libBox2D.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBox2D.a; path = ../../../../../../opt/local/lib/libBox2D.a; sourceTree = "<group>"; };
-		F4B9338522E600730007F1E3 /* RETURN.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RETURN.txt; sourceTree = "<group>"; };
 		F4B9338D22E6179D0007F1E3 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = source/assets; sourceTree = "<group>"; };
 		F4B9338F22E647B00007F1E3 /* source */ = {isa = PBXFileReference; lastKnownFileType = folder; path = source; sourceTree = "<group>"; };
 		F4DBE6BF226FA4AF004DC9F2 /* Box2D_SDLDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Box2D_SDLDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,7 +72,6 @@
 		F4DBE6B6226FA4AF004DC9F2 = {
 			isa = PBXGroup;
 			children = (
-				F4B9338522E600730007F1E3 /* RETURN.txt */,
 				F415663F22E193180025EF76 /* SDL2_mixer.framework */,
 				F415663D22E193040025EF76 /* SDL2_ttf.framework */,
 				F4DBE6D9226FA6CA004DC9F2 /* SDL2_image.framework */,
@@ -164,7 +161,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4B9338E22E6179D0007F1E3 /* assets in Resources */,
-				F4B9338622E600730007F1E3 /* RETURN.txt in Resources */,
 				F4DBE6C9226FA4B1004DC9F2 /* Assets.xcassets in Resources */,
 				F4B9339022E647B00007F1E3 /* source in Resources */,
 			);
