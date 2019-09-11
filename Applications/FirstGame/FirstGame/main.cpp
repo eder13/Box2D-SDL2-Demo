@@ -1,3 +1,14 @@
+//-----------------------------------------------------------------------------
+///
+/// A simple Demo of using Box2D with SDL2
+///
+/// @param argc not used
+/// @param arv not used
+///
+///
+/// @return EXIT_SUCCESS
+//
+
 #include <iomanip>
 #include <Box2D/Box2D.h>
 #include <iostream>
@@ -29,7 +40,9 @@ int main()
     
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     
-    world = new b2World(b2Vec2(0.0f, 9.81f));
+    SDL_RenderSetLogicalSize(renderer, 320, 240); // scales to "left part" of coordinate system
+    
+    world = new b2World(b2Vec2(0.0f, 9.81f)); // new b2World(b2Vec2(0.0f, 9.81f));
     
     // cartesian origin
     float ground_x = 0.0f;
@@ -37,13 +50,13 @@ int main()
     
     // start ground point
     b2Vec2 startpoint;
-    startpoint.x = -2.5f;
-    startpoint.y = 0;
+    startpoint.x = -3.0f;
+    startpoint.y = -0.25;
     
     // end ground point
     b2Vec2 endpoint;
-    endpoint.x = 2.5;
-    endpoint.y = 0;
+    endpoint.x = -1;
+    endpoint.y = -0.25;
     
     // LineGround
     b2BodyDef myGroundDef;
@@ -69,15 +82,15 @@ int main()
     SDL_FreeSurface(tmp_sprites);
     
     // cartesian origin box
-    float x_box = 0;
-    float y_box = -2.5f;
+    float x_box = -3.0f;
+    float y_box = -1.5f;
     
     // size of box
-    float w_box = 0.5;
-    float h_box = 0.5;
+    float w_box = 0.3;
+    float h_box = 0.3;
     
     // angle of the box
-    float angle_box = 45.0f;
+    float angle_box = 45.0f; //45.0f;
     
     // Box
     SDL_Rect box;
@@ -89,13 +102,13 @@ int main()
     //boxBodyDef.angle = 0;
     boxBodyDef.position.Set(x_box, y_box);
     b2Vec2 vel;
-    vel.Set(0, 1);
+    vel.Set(0, 0.2f);
     
     Body = world->CreateBody(&boxBodyDef);
     Body->SetLinearVelocity(vel);
     
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(w_box / 2.0f, h_box / 2.0f); // will be 0.5 x 0.5
+    dynamicBox.SetAsBox((w_box / 2.0f) - dynamicBox.m_radius, (h_box / 2.0f) - dynamicBox.m_radius); // will be 0.5 x 0.5
     
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
@@ -107,6 +120,86 @@ int main()
     // box: convert Metres back to Pixels for width and height
     box.w = w_box * MET2PIX;
     box.h = h_box * MET2PIX;
+    
+    // cartesian origin of _0019_PLATF.png 89 x 22
+    float x_plat = -3.6f; // to edge
+    float y_plat = -0.14f;// to edge
+    
+    // size of the platform
+    float w_plat = 89.0f / MET2PIX;
+    float h_plat = 22.0f / MET2PIX;
+    
+    // define a Rect for this platform and its body def
+    SDL_Rect platform;
+    b2Body* Body_platform;
+    
+    b2BodyDef platformBoyDef;
+    platformBoyDef.type = b2_staticBody;
+    platformBoyDef.position.Set(x_plat, y_plat);
+    
+    Body_platform = world->CreateBody(&platformBoyDef);
+    
+    b2PolygonShape platformTile;    // subtracting radius fixes the incorrect little gap that can appear when working with really small resolutions
+    platformTile.SetAsBox((w_plat / 2.0f) - platformTile.m_radius, (h_plat / 2.0f) - platformTile.m_radius); // subtracting the radius kills the gap issue:
+    b2FixtureDef fixturePlat;
+    fixturePlat.shape = &platformTile;
+    fixturePlat.density = 1.0f;
+    fixturePlat.friction = 0.3f;
+    fixturePlat.restitution = 0.5f;
+    Body_platform->CreateFixture(&fixturePlat);
+    
+    // set the SDL_RECT rendering values
+    platform.w = w_plat * MET2PIX;
+    platform.h = h_plat * MET2PIX;
+    platform.x = ((SCALED_WIDTH / 2.0f) + x_plat) * MET2PIX - platform.w / 2;
+    platform.y = ((SCALED_HEIGHT / 2.0f) + y_plat) * MET2PIX - platform.h / 2;
+    
+    tmp_sprites = IMG_Load("assets/_0019_PLATF.png");
+    if(!tmp_sprites)
+        return EXIT_FAILURE;
+    
+    SDL_Texture* texture_platform = SDL_CreateTextureFromSurface(renderer, tmp_sprites);
+    SDL_FreeSurface(tmp_sprites);
+    
+    // cartesian origin of _0016_ziegeln-Kopie-3.png 31 x 182
+    float x_zieg_3 = -3.8f; // to edge
+    float y_zieg_3 = -1.43f;// to edge
+    
+    // size of the platform
+    float w_zieg_3 = 32.0f / MET2PIX;
+    float h_zieg_3 = 182.0f / MET2PIX;
+    
+    // define a Rect for this platform and its body def
+    SDL_Rect zieg_3;
+    b2Body* Body_zieg_3;
+    
+    b2BodyDef zieg3BoyDef;
+    zieg3BoyDef.type = b2_staticBody;
+    zieg3BoyDef.position.Set(x_zieg_3, y_zieg_3);
+    
+    Body_zieg_3 = world->CreateBody(&zieg3BoyDef);
+    
+    b2PolygonShape zieg3Tile;    // subtracting radius fixes the incorrect little gap that can appear when working with really small resolutions
+    zieg3Tile.SetAsBox((w_zieg_3 / 2.0f) - zieg3Tile.m_radius, (h_zieg_3 / 2.0f) - zieg3Tile.m_radius); // subtracting the radius kills the gap issue:
+    b2FixtureDef fixtureZieg3;
+    fixtureZieg3.shape = &zieg3Tile;
+    fixtureZieg3.density = 1.0f;
+    fixtureZieg3.friction = 0.3f;
+    fixtureZieg3.restitution = 0.5f;
+    Body_zieg_3->CreateFixture(&fixtureZieg3);
+
+    // set the SDL_RECT rendering values
+    zieg_3.w = w_zieg_3 * MET2PIX;
+    zieg_3.h = h_zieg_3 * MET2PIX;
+    zieg_3.x = ((SCALED_WIDTH / 2.0f) + x_zieg_3) * MET2PIX - zieg_3.w / 2;
+    zieg_3.y = ((SCALED_HEIGHT / 2.0f) + y_zieg_3) * MET2PIX - zieg_3.h / 2;
+    
+    tmp_sprites = IMG_Load("assets/_0016_ziegeln-Kopie-3.png");
+    if(!tmp_sprites)
+        return EXIT_FAILURE;
+    
+    SDL_Texture* texture_zieg3 = SDL_CreateTextureFromSurface(renderer, tmp_sprites);
+    SDL_FreeSurface(tmp_sprites);
     
     bool close_game = false;
     SDL_Event event;
@@ -135,6 +228,7 @@ int main()
             }
         }
         
+        // question box, update x and y destination
         box.x = ((SCALED_WIDTH / 2.0f) + pos.x) * MET2PIX - box.w / 2;
         box.y = ((SCALED_HEIGHT / 2.0f) + pos.y) * MET2PIX - box.h / 2;
         
@@ -148,9 +242,18 @@ int main()
         SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
         SDL_RenderDrawLine(renderer, ((SCALED_WIDTH / 2.0f) + edgeShape.m_vertex1.x) * MET2PIX, ((SCALED_HEIGHT / 2.0f) + edgeShape.m_vertex1.y) * MET2PIX, ((SCALED_WIDTH / 2.0f) + edgeShape.m_vertex2.x) * MET2PIX, ((SCALED_HEIGHT / 2.0f) + edgeShape.m_vertex2.y) * MET2PIX);
         
+        // Draw ziegl_3
+        
+        
         // Draw our Box angle 45
         // Body->SetFixedRotation(true); - sets no rotation at all
         SDL_RenderCopyEx(renderer, texture_box, NULL, &box, angle, NULL, SDL_FLIP_NONE);
+        
+        // Draw platform grundTile
+        SDL_RenderCopy(renderer, texture_platform, NULL, &platform);
+        
+        // Draw ziegel3
+        SDL_RenderCopy(renderer, texture_zieg3, NULL, &zieg_3);
         
         // Draw box angle 45
         //Body->SetAngularVelocity(10.0f);
@@ -158,15 +261,19 @@ int main()
         //SDL_RenderDrawRect(renderer, &box);
         //SDL_RenderFillRect(renderer, &box);
         
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+        SDL_SetRenderDrawColor(renderer, 32, 70, 49, 0);
         SDL_RenderPresent(renderer);
         
         world->Step(1.0f / 60.0f, 6.0f, 2.0f); // update
         
     }
     
+    // box2D delete whole world and free memory
     delete world;
     
+    SDL_DestroyTexture(texture_box);
+    SDL_DestroyTexture(texture_platform);
+    SDL_DestroyTexture(texture_zieg3);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
