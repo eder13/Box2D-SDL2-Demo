@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		F415663E22E193040025EF76 /* SDL2_ttf.framework in Copy Build Frameworks */ = {isa = PBXBuildFile; fileRef = F415663D22E193040025EF76 /* SDL2_ttf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F415664022E193180025EF76 /* SDL2_mixer.framework in Copy Build Frameworks */ = {isa = PBXBuildFile; fileRef = F415663F22E193180025EF76 /* SDL2_mixer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F447F22322EB272400DD5E21 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F447F22222EB272400DD5E21 /* libBox2D.a */; };
+		F447F22322EB272400DD5E21 /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F447F22222EB272400DD5E21 /* libBox2D.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		F4B9338E22E6179D0007F1E3 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = F4B9338D22E6179D0007F1E3 /* assets */; };
 		F4B9339022E647B00007F1E3 /* source in Resources */ = {isa = PBXBuildFile; fileRef = F4B9338F22E647B00007F1E3 /* source */; };
 		F4DBE6C9226FA4B1004DC9F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4DBE6C8226FA4B1004DC9F2 /* Assets.xcassets */; };

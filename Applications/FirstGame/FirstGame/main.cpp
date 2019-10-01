@@ -34,7 +34,15 @@ using namespace std;
 int main()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
-
+    
+    SDL_DisplayMode DM;
+    SDL_GetCurrentDisplayMode(0, &DM);
+    auto Width = DM.w;
+    auto Height = DM.h;
+    
+    cout << "Width of the Screen: " << Width << endl;
+    cout << "Height of the Screen: " << Height << endl;
+    
     SDL_Window *window = SDL_CreateWindow("FirstGame", SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
     
@@ -154,53 +162,6 @@ int main()
     platform.x = ((SCALED_WIDTH / 2.0f) + x_plat) * MET2PIX - platform.w / 2;
     platform.y = ((SCALED_HEIGHT / 2.0f) + y_plat) * MET2PIX - platform.h / 2;
     
-    tmp_sprites = IMG_Load("assets/_0019_PLATF.png");
-    if(!tmp_sprites)
-        return EXIT_FAILURE;
-    
-    SDL_Texture* texture_platform = SDL_CreateTextureFromSurface(renderer, tmp_sprites);
-    SDL_FreeSurface(tmp_sprites);
-    
-    // cartesian origin of _0016_ziegeln-Kopie-3.png 31 x 182
-    float x_zieg_3 = -3.8f; // to edge
-    float y_zieg_3 = -1.43f;// to edge
-    
-    // size of the platform
-    float w_zieg_3 = 32.0f / MET2PIX;
-    float h_zieg_3 = 182.0f / MET2PIX;
-    
-    // define a Rect for this platform and its body def
-    SDL_Rect zieg_3;
-    b2Body* Body_zieg_3;
-    
-    b2BodyDef zieg3BoyDef;
-    zieg3BoyDef.type = b2_staticBody;
-    zieg3BoyDef.position.Set(x_zieg_3, y_zieg_3);
-    
-    Body_zieg_3 = world->CreateBody(&zieg3BoyDef);
-    
-    b2PolygonShape zieg3Tile;    // subtracting radius fixes the incorrect little gap that can appear when working with really small resolutions
-    zieg3Tile.SetAsBox((w_zieg_3 / 2.0f) - zieg3Tile.m_radius, (h_zieg_3 / 2.0f) - zieg3Tile.m_radius); // subtracting the radius kills the gap issue:
-    b2FixtureDef fixtureZieg3;
-    fixtureZieg3.shape = &zieg3Tile;
-    fixtureZieg3.density = 1.0f;
-    fixtureZieg3.friction = 0.3f;
-    fixtureZieg3.restitution = 0.5f;
-    Body_zieg_3->CreateFixture(&fixtureZieg3);
-
-    // set the SDL_RECT rendering values
-    zieg_3.w = w_zieg_3 * MET2PIX;
-    zieg_3.h = h_zieg_3 * MET2PIX;
-    zieg_3.x = ((SCALED_WIDTH / 2.0f) + x_zieg_3) * MET2PIX - zieg_3.w / 2;
-    zieg_3.y = ((SCALED_HEIGHT / 2.0f) + y_zieg_3) * MET2PIX - zieg_3.h / 2;
-    
-    tmp_sprites = IMG_Load("assets/_0016_ziegeln-Kopie-3.png");
-    if(!tmp_sprites)
-        return EXIT_FAILURE;
-    
-    SDL_Texture* texture_zieg3 = SDL_CreateTextureFromSurface(renderer, tmp_sprites);
-    SDL_FreeSurface(tmp_sprites);
-    
     bool close_game = false;
     SDL_Event event;
     
@@ -232,8 +193,8 @@ int main()
         box.x = ((SCALED_WIDTH / 2.0f) + pos.x) * MET2PIX - box.w / 2;
         box.y = ((SCALED_HEIGHT / 2.0f) + pos.y) * MET2PIX - box.h / 2;
         
-        cout << "X of box:" << setprecision(20) << box.x << endl;
-        cout << "Y of box:" << setprecision(20) << box.y << endl;
+        // cout << "X of box:" << setprecision(20) << box.x << endl;
+        // cout << "Y of box:" << setprecision(20) << box.y << endl;
         
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
@@ -243,17 +204,6 @@ int main()
         SDL_RenderDrawLine(renderer, ((SCALED_WIDTH / 2.0f) + edgeShape.m_vertex1.x) * MET2PIX, ((SCALED_HEIGHT / 2.0f) + edgeShape.m_vertex1.y) * MET2PIX, ((SCALED_WIDTH / 2.0f) + edgeShape.m_vertex2.x) * MET2PIX, ((SCALED_HEIGHT / 2.0f) + edgeShape.m_vertex2.y) * MET2PIX);
         
         // Draw ziegl_3
-        
-        
-        // Draw our Box angle 45
-        // Body->SetFixedRotation(true); - sets no rotation at all
-        SDL_RenderCopyEx(renderer, texture_box, NULL, &box, angle, NULL, SDL_FLIP_NONE);
-        
-        // Draw platform grundTile
-        SDL_RenderCopy(renderer, texture_platform, NULL, &platform);
-        
-        // Draw ziegel3
-        SDL_RenderCopy(renderer, texture_zieg3, NULL, &zieg_3);
         
         // Draw box angle 45
         //Body->SetAngularVelocity(10.0f);
@@ -272,8 +222,6 @@ int main()
     delete world;
     
     SDL_DestroyTexture(texture_box);
-    SDL_DestroyTexture(texture_platform);
-    SDL_DestroyTexture(texture_zieg3);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
