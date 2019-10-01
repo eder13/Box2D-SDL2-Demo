@@ -48,8 +48,6 @@ int main()
     
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     
-    SDL_RenderSetLogicalSize(renderer, 320, 240); // scales to "left part" of coordinate system
-    
     world = new b2World(b2Vec2(0.0f, 9.81f)); // new b2World(b2Vec2(0.0f, 9.81f));
     
     // cartesian origin
@@ -59,12 +57,12 @@ int main()
     // start ground point
     b2Vec2 startpoint;
     startpoint.x = -3.0f;
-    startpoint.y = -0.25;
+    startpoint.y = 2.0;
     
     // end ground point
     b2Vec2 endpoint;
-    endpoint.x = -1;
-    endpoint.y = -0.25;
+    endpoint.x = 3;
+    endpoint.y = 2.0;
     
     // LineGround
     b2BodyDef myGroundDef;
@@ -90,8 +88,8 @@ int main()
     SDL_FreeSurface(tmp_sprites);
     
     // cartesian origin box
-    float x_box = -3.0f;
-    float y_box = -1.5f;
+    float x_box = -2.5f;
+    float y_box = -2.5f;
     
     // size of box
     float w_box = 0.3;
@@ -202,6 +200,8 @@ int main()
         // Draw ground platform
         SDL_SetRenderDrawColor(renderer, 255, 255, 0, 0);
         SDL_RenderDrawLine(renderer, ((SCALED_WIDTH / 2.0f) + edgeShape.m_vertex1.x) * MET2PIX, ((SCALED_HEIGHT / 2.0f) + edgeShape.m_vertex1.y) * MET2PIX, ((SCALED_WIDTH / 2.0f) + edgeShape.m_vertex2.x) * MET2PIX, ((SCALED_HEIGHT / 2.0f) + edgeShape.m_vertex2.y) * MET2PIX);
+        
+        SDL_RenderCopyEx(renderer, texture_box, NULL, &box, Body->GetAngle() * RAD2DEG, NULL, SDL_FLIP_NONE);
         
         // Draw ziegl_3
         
